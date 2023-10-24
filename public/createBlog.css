@@ -1,0 +1,108 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-image: url("images/lauren-mancke-aOC7TSLb1o8-unsplash.jpg");
+  background-repeat: repeat;
+  animation: slide 50s infinite linear;
+}
+
+
+
+@keyframes slide {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 100% 0;
+  }
+}
+
+header {
+    background-color: #333;
+    color: #ffe9ba;
+    padding: 10px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-around;
+}
+
+nav a {
+    text-decoration: none;
+    color: #ffe9ba;
+    font-weight: bold;
+}
+.nav-links a:hover {
+    color: #6e7072;
+}
+
+
+.create h1 {
+  font-size: 36px;
+  margin: 0;
+}
+
+.create {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 55px;
+  margin-top: 40px;
+}
+
+main {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding-right: 40px;
+}
+
+main form {
+  display: flex;
+  flex-direction: column;
+}
+
+.main .form-group {
+  margin: 10px 0;
+}
+
+main label {
+  font-weight: bold;
+}
+
+main input[type="text"],
+main input[type="author"],
+main textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+}
+
+main button {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+main button:hover {
+  background-color: #333;
+}
+
+footer {
+  text-align: center;
+  background-color: #333;
+  color: #fff;
+  padding: 10px 0;
+}

@@ -1,0 +1,99 @@
+body, h1, h2, h3, p {
+    margin: 0;
+    padding: 0;
+}
+
+/* Apply a background color and font */
+body {
+    font-family: Lato;
+    background-size: 150% 150%;
+    background-repeat: no-repeat;
+    text-align: center;
+    animation: backgroundAnimation 15s linear infinite;
+}
+
+
+
+
+@keyframes backgroundAnimation {
+    0% {
+        background-image: url('images/arthur-james-foFCozhmgZo-unsplash.jpg');
+    }
+    25% {
+        background-image: url('images/carl-heyerdahl-KE0nC8-58MQ-unsplash.jpg');
+    }
+    50% {
+        background-image: url('images/marissa-grootes-D4jRahaUaIc-unsplash.jpg');
+    }
+    75% {
+        background-image: url('images/janko-ferlic-sfL_QOnmy00-unsplash.jpg');
+    }
+    100% {
+        background-image: url('images/ben-kolde-FaPxZ88yZrw-unsplash.jpg');
+    }
+}
+
+/* Style the header and navigation */
+header {
+    background-color: #333;
+    color: #ffe9ba;
+    padding: 10px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-around;
+}
+
+nav a {
+    text-decoration: none;
+    color: #ffe9ba;
+    font-weight: bold;
+}
+.nav-links a:hover {
+    color: #6e7072;
+}
+
+/* Style the welcome section */
+.welcome {
+    background-color: grey;
+    color: #ecc97f;
+    padding: 40px 0;
+    margin-top: 35px;
+}
+
+/* Style the main content */
+main {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #cbc3c3;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    text-align: left;
+
+}
+
+main ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+/* Style the footer to create a sticky footer */
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+  

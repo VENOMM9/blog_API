@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Update Blog Post</title>
+    <link rel="stylesheet" type="text/css" href="/updateblog.css" />
+    <!-- Include your CSS file -->
+  </head>
+  <body>
+    <header>
+      <h1>Update Blog Post</h1>
+    </header>
+    <main>
+      <div class="container">
+        <form method="POST" action="/blogs/update/<%= blog._id %>?_method=PUT">
+          <label for="title">Title:</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            value="<%= blog.title %>"
+          />
+
+          <label for="description">Description:</label>
+          <textarea id="description" name="description">
+<%= blog.description %></textarea
+          >
+
+          <label for="tag">Tag:</label>
+          <input type="text" id="tag" name="tag" value="<%= blog.tag %>" />
+
+          <label for="author">Author:</label>
+          <input
+            type="text"
+            id="author"
+            name="author"
+            value="<%= blog.author %>"
+          />
+
+          <label for="state">State:</label>
+          <input
+            type="text"
+            id="state"
+            name="state"
+            value="<%= blog.state %>"
+          />
+
+          <button type="submit">Update</button>
+        </form>
+      </div>
+    </main>
+    <footer>
+      <p>&copy; 2023 Lemon Blog</p>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,124 @@
+body {
+    font-family: Lato;
+    background-image: url("./images/mark-adriane-muS2RraYRuQ-unsplash.jpg");
+    background-size: 200% 200%;
+    background-repeat: no-repeat;
+    text-align: center;
+    animation: slideAnimation 10s linear infinite;
+
+}
+/* body {
+    background-image: url('your-image.jpg');
+    background-size: cover;
+    animation: slideAnimation 10s linear infinite; 
+} */
+
+@keyframes slideAnimation {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 100% 0;
+    }
+}
+header{
+    background-color: #333;
+        color: #ffe9ba;
+        padding: 16px ;
+        padding-right: 40px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+    }
+.nav-links {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+}
+
+nav a {
+    text-decoration: none;
+    color: #ffe9ba;
+    font-weight: bold;
+}
+.nav-links a:hover {
+    color: #cdd1d6;
+}
+
+.nav-links li {
+    margin: 0 10px;
+}
+.nav-links a {
+    margin: 0 10px;
+}
+
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 30px;
+    padding-right: 50px;
+    margin-top: 100px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+}
+
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+  
+    
+   
+
+button {
+    background-color: #333;
+    color: #ffffff;
+    border: none;
+    padding: 13px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #8c8e90;
+}
+
+

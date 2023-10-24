@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="dashboard.css" />
+  </head>
+
+  <body>
+    <header>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">HOME</a></li>
+          <li><a href="/create">CREATE TASK</a></li>
+        </ul>
+      </nav>
+    </header>
+    <h1 class="realheader">Welcome <span class="firstname"><%= user.first_name %></span> to LEMON </h1>
+
+    <% blogs.forEach(blog =>{ %>
+    <section>
+      <h1>Title: <%= blog.title %></h1>
+
+      <p>Author: <%= blog.author %></p>
+      <p>State: <%= blog.state %></p>
+    </section>
+    <main class="main">
+      <div class="blog-post">
+        <p>Description: <%= blog.description %></p>
+        <p>
+          Published on: <%= new Date().getDate() %> <%= new
+          Date().toLocaleString('default', {month: 'long'}); %>,<%= new
+          Date().getFullYear(); %>
+        </p>
+        <p>Reading Time: <%= blog.reading_time %> minutes</p>
+        <p>Read Count: <%= blog.read_count %> times</p>
+      </div>
+      <div class="blog-content">
+        <p><strong>The body</strong><%= blog.body %></p>
+      </div>
+      <a class="update" href="/update/<%= blog._id %>">Update</a>
+      <div>
+        <form method="POST" action="/blogs/<%= blog._id %>?_method=DELETE">
+          <button class="delete-button" type="submit">Delete</button>
+        </form><span>  <p class="tags"> <%= blog.tag %></p>
+        </span>
+      </div>
+    </main>
+    <%}); %>
+
+    <footer>
+      <p>&copy; 2023 Your Blog</p>
+    </footer>
+  </body>
+</html>

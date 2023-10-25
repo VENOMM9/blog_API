@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="dashboard.css" />
+    <title>dashboard</title>
+    <link rel="stylesheet" href="dashboard.css" />
   </head>
 
   <body>
@@ -12,11 +12,16 @@
       <nav>
         <ul class="nav-links">
           <li><a href="/">HOME</a></li>
+          <li><a href="/publishedBlogs">PUBLISHED</a></li>
+          <li><a href="/logout">LOGOUT</a></li>
+
           <li><a href="/create">CREATE TASK</a></li>
         </ul>
       </nav>
     </header>
-    <h1 class="realheader">Welcome <span class="firstname"><%= user.first_name %></span> to LEMON </h1>
+    <h1 class="realheader">
+      Welcome <span class="firstname"></span> to LEMON
+    </h1>
 
     <% blogs.forEach(blog =>{ %>
     <section>
@@ -37,14 +42,14 @@
         <p>Read Count: <%= blog.read_count %> times</p>
       </div>
       <div class="blog-content">
-        <p><strong>The body</strong><%= blog.body %></p>
+        <p><strong>The body:</strong><%= blog.body %></p>
       </div>
       <a class="update" href="/update/<%= blog._id %>">Update</a>
       <div>
         <form method="POST" action="/blogs/<%= blog._id %>?_method=DELETE">
           <button class="delete-button" type="submit">Delete</button>
-        </form><span>  <p class="tags"> <%= blog.tag %></p>
-        </span>
+        </form>
+        <span> <p class="tags"><%= blog.tag %></p> </span>
       </div>
     </main>
     <%}); %>

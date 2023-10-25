@@ -103,8 +103,11 @@ const getAllBlogs = async (req, res) => {
     try {
 
         const allBlogs = await blogModel.find({})
-        res.status(200).send(allBlogs);
-        console.log('All blogs successfully gotten') 
+        console.log('All blogs successfully gotten')
+        return {
+            status: 200,
+            allBlogs
+        }
 
     } catch (error) {
 

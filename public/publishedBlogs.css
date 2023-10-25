@@ -53,7 +53,7 @@ nav a {
     text-align: center;
     padding: 15px 0;
     font-size: 24px;
-    margin-top: 70px;
+    margin-top: 60px;
 }
 
 .update{
@@ -98,6 +98,11 @@ h1 {
   border-radius: 7px;
   text-align: center;
   padding: 3px;
+}
+
+.welcome h1{
+    margin-top: 90px;
+    text-align: center;
 }
 
 .blog-content {

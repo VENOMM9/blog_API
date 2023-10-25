@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Update Blog Post</title>
     <link rel="stylesheet" type="text/css" href="/updateblog.css" />
-    <!-- Include your CSS file -->
+   
   </head>
   <body>
     <header>
@@ -44,6 +44,13 @@
             id="state"
             name="state"
             value="<%= blog.state %>"
+          />
+          <label for="state">Body:</label>
+          <input
+            type="text"
+            id="body"
+            name="body"
+            value="<%= blog.body %>"
           />
 
           <button type="submit">Update</button>

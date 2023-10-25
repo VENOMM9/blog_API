@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog List</title>
+    <link rel="stylesheet" type="text/css" href="blogs.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/">HOME</a></li>
+                <li><a href="/logout">LOGOUT</a></li>
+                <li><a href="/create">CREATE BLOG</a></li>
+            </ul>
+        </nav>
+    </header>
+    <h1 class="realheader">Welcome <span class="firstname"></span> to Your Blog</h1>
+    
+    <div class="blog-list">
+        <% blogs.forEach(blog => { %>
+            <div class="blog-item">
+                <h2>Title:<%= blog.title %></h2>
+                <p>Author: <%= blog.author %></p>
+                <p>Published on: <%= blog.createdAt.toDateString() %></p>
+                <p>Reading Time: <%= blog.readingTime %> minutes</p>
+                <p>State: <%= blog.state %></p>
+                <a class="read-more" href="/blogs/<%= blog._id %>">Read More</a>
+            </div>
+        <% }); %>
+    </div>
+    
+    <footer>
+        <p>&copy; <%= new Date().getFullYear() %> Your Blog</p>
+    </footer>
+</body>
+</html>

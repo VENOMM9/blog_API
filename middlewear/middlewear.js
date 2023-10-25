@@ -121,11 +121,7 @@ const validateBlog = async (req, res, next) => {
                 "string.empty": `"timestamp" cannot be empty`,
                 "string.required": `"timestamp" is required`,
             }),
-            state: joi.string().empty().messages({
-                "string.base": `"state" must be of type "text"`,
-                "string.empty": `"state" cannot be empty`,
-                "string.required": `"state" is required`,
-            }),
+            
             user_id: joi.string().empty().messages({
                 "string.base": `"user_id" must be of type "text"`,
                 "string.empty": `"user_id" cannot be empty`,

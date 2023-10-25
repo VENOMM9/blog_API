@@ -10,15 +10,15 @@ const blogSchema = new schema({
         type: String,
      default: shortid.generate
     },
-    title: { type: String, required: true },
+    title: { type: String, required: false },
     description: { type: String, required: true },
     tag: { type: String, required: true },
     author: { type: String, required: true },
     createdAt: { type: Date, required: true, default:Date.now },
     updatedAt: { type: Date, required: true, default:Date.now },
 
-    state: { type: String, required: true,  enum : ['draft','published'],
-    dafault: 'draft'},
+    state: { type: String, 
+    default: 'draft'},
     user_id:{type:mongoose.Schema.Types.String,
         ref:"users"
         },

@@ -2,6 +2,10 @@ const express = require("express");
 const controller = require("../controllers/controller")
 const middlewear = require("../middlewear/middlewear")
 const cookieParser = require("cookie-parser")
+const auth = require("../globalmiddlewear/auth")
+
+
+
 
 const userRouter = express.Router();
 userRouter.use(cookieParser())
@@ -16,7 +20,7 @@ userRouter.post("/signup", middlewear.validateCreateUser, async (req, res) => {
             res.redirect('/login')
         }
         else if (response.code == 409) {
-            res.redirect('/existingUser')
+            res.redirect('/existinguser')
         }
         else { res.redirect('/signup') }
     } catch (error) {
@@ -25,24 +29,33 @@ userRouter.post("/signup", middlewear.validateCreateUser, async (req, res) => {
 }) 
 
 
-userRouter.post("/login", middlewear.validateLogin, async (req, res) => {
+userRouter.post("/login",  middlewear.validateLogin, async (req, res) => {
 
     try {
         const { email, password } = req.body
         const response = await controller.login({ email, password })
+
+
         if (response.code == 201) {
+
             res.locals.user = response.user
-            res.cookie("jwt", response.token,  { maxAge: 60 * 60 * 1000 })
-            res.redirect("/dashboard")
+            res.cookie("jwt", response.token, { maxAge: 60 * 60 * 1000 });
+            res.redirect("/dashboard");
+            
         }
+        
         else if (response.code == 404) {
-            res.redirect("/userNotFound")
+            res.redirect("/unknown")
         }
-        else { res.redirect("/invalidInfo") }
+            
+        else { res.redirect("/invalidinfo")}
+
     } catch (error) {
         console.log(error)
         
     }
 })
+
+
 
 module.exports = userRouter

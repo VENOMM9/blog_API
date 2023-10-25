@@ -1,12 +1,10 @@
 const express = require("express");
 const controller = require("../controllers/controller")
 const middlewear = require("../middlewear/middlewear")
-const cookieParser = require("cookie-parser")
 const auth = require("../globalmiddlewear/auth");
 const blogModel = require("../models/blogs");
 
 const blogRouter = express.Router();
-blogRouter.use(cookieParser())
 
 
 
@@ -16,14 +14,14 @@ blogRouter.post("/create", auth.authenticateUser, async (req, res) => {
         const { title,description, tag, author, timestamp, state, read_count, reading_time,  body} = req.body
         const user_id = req.params.user_id
 
-        const response = await controller.createBlog({ title,description, tag, author, timestamp, state, read_count, reading_time, user_id, body })
+        const response = await controller.createBlog({ title, description, tag, author, timestamp, state, read_count, reading_time, user_id, body })
         if (response.code == 201) {
             res.redirect('/dashboard')
             
         }
 
         else {
-            res.redirect('/invalidInfo')
+            res.redirect('/invalidinfo')
     
         }
     } catch (error) {

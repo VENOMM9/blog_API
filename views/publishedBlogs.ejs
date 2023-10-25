@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Published Blogs</title>
+    <link rel="stylesheet" href="publishedBlogs.css"> <!-- Include your CSS file -->
+</head>
+<body>
+    <header>
+        <nav>
+          <ul class="nav-links">
+            <li><a href="/">HOME</a></li>
+            <li><a href="/dashboard">DASHBOARD</a></li>
+
+  
+            <li><a href="/login">LOGIN</a></li>
+  
+          </ul>
+        </nav>
+      </header>
+      <div class="welcome">  <h1>Published blog Posts</h1>
+    </div>
+    <main>
+        <div class="blog-list">
+            <% blogs.forEach(blog => { %>
+                <main class="blog-item">
+                    <h2><%= blog.title %></h2>
+                    <p>Author: <%= blog.author %></p>
+                    <p>Published on: <%= new Date().getDate() %> <%= new
+                        Date().toLocaleString('default', {month: 'long'}); %>,<%= new
+                        Date().getFullYear(); %></p> </main>
+                   <section> <p>Description: <%= blog.description %></p>
+                    <p>Reading Time: <%= blog.readingTime %> minutes</p>
+                    <p>The body: <%= blog.body %></p></section>
+
+                    
+               
+            <% }); %>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2023 Your Blog</p>
+    </footer>
+</body>
+</html>

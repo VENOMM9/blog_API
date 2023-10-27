@@ -15,13 +15,22 @@
           <li><a href="/publishedBlogs">PUBLISHED</a></li>
           <li><a href="/logout">LOGOUT</a></li>
 
-          <li><a href="/create">CREATE TASK</a></li>
+          <li><a href="/create">CREATE BLOG</a></li>
         </ul>
       </nav>
     </header>
     <h1 class="realheader">
-      Welcome <span class="firstname"></span> to LEMON
+      Welcome <span class="firstname"><%= user.first_name %></span> to LEMON
     </h1>
+    <aside class="profile-section">
+      <img src="<%= user.profilePictureURL %>" alt="Profile Picture" />
+
+      <!-- File upload form for updating the profile picture -->
+      <form action="/upload" method="POST" enctype="multipart/form-data">
+        <input class="input" type="file" name="profilePicture" accept="image/*" />
+        <button class="uploadbtn" type="submit">Upload Profile Picture</button>
+      </form>
+    </aside>
 
     <% blogs.forEach(blog =>{ %>
     <section>

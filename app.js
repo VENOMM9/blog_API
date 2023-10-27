@@ -10,6 +10,7 @@ const {connectionToMongodb}  = require("./db/connect")
 const userModel = require("./models/users");
 const blogModel = require("./models/blogs");
 const cookieParser = require("cookie-parser");
+const { title } = require("process");
 
 
 const PORT = process.env.PORT || 5050
@@ -20,11 +21,13 @@ app.set('view engine', 'ejs')
 app.set('views', 'views')
 
 
+app.use(express.static( path.join(__dirname,'public')));
+
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json())
 app.use(cookieParser())
 
-app.use(express.static( path.join(__dirname,'public')));
 
 
 //connect to mongodb instance
@@ -54,16 +57,22 @@ app.get('/publishedblogs', async (req, res) => {
 });
 
 
-app.get('/blogs/:_id', async (req, res) => {
+app.get('/blogsPost/:_id', async (req, res) => {
     try {
-        const blogId = req.params._Id;
+        const blogId = req.params._id;
         const blog = await blogModel.findById(blogId);
 
         if (!blog) {
             return res.status(404).send('Blog not found');
         }
 
-        res.render('blogPost', { blog });
+        //increment the read count
+        blog.read_count += 1;
+
+        //save the updated blog
+        await blog.save()
+
+        res.render('blogsPost', { blog });
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');
@@ -72,10 +81,13 @@ app.get('/blogs/:_id', async (req, res) => {
 
 app.get('/blogs',  async (req, res) => {
     try {
+
+
         // Extract query parameters for pagination and filtering
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 10; // Adjust the limit as needed
         const state = req.query.state; // You can add validation or use a default value
+        const title = req.query.title
 
         // Calculate the skip value based on pagination
         const skip = (page - 1) * limit;
@@ -88,7 +100,15 @@ app.get('/blogs',  async (req, res) => {
             query.state = state;
         }
 
+        if (title) {
+            query.title = title;
+        }
+        if (!title) {
+            return res.status(400).json({ message: '"title" is required' });
+        }
+
         const blogs = await blogModel
+           
             .find(query)
             .skip(skip)
             .limit(limit);
@@ -135,6 +155,11 @@ app.get("/dashboard", auth.authenticateUser,  async (req, res) => {
     }
 })
 
+
+app.get('/users/dashboard.css', (req, res) => {
+    res.type('text/css'); // Set the content type to CSS
+    res.sendFile(path.join(__dirname, 'public/dashboard.css'));
+});
 
 
 
@@ -185,9 +210,6 @@ app.get('/unknown', (req, res) => {
     res.render('unknown')
 })
 
-app.get('/blogs', (req, res) => {
-    res.render('blogs')
-})
 
 
 app.get("/logout", (req, res) => {

@@ -34,6 +34,12 @@
                     <p>Reading Time: <%= blog.readingTime %> minutes</p>
                     <p>The body: <%= blog.body %></p></section>
 
+                    <a class="update" href="/update/<%= blog._id %>">Update</a>
+                    <div>
+                      <form method="POST" action="/blogs/<%= blog._id %>?_method=DELETE">
+                        <button class="delete-button" type="submit">Delete</button>
+                      </form>
+
                     
                
             <% }); %>

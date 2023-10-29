@@ -175,41 +175,54 @@ const deleteBlog = async (req, res) => {
 
 
 const login = async (req, res) => {
+
     const { email, password } = req.body;
   
     try {
+
       const user = await userModel.findOne({
           email: email,
           
       });
-      // console.log(user)
-      if (!user) {
+        // console.log(user)
+        
+        if (!user) {
+          
         return {
           message: "This user does not exist",
           code: 404,
-        };
+            };
+            
       }
   
       const validPassword = await user.isValidPassword(password);
       console.log(email);
   
-      if (!validPassword) {
-        return {
+        if (!validPassword) {
+          
+            return {
+            
           message: "wrong email or password",
-          code: 422,
+                code: 422,
+          
         };
       }
   
       const token = await jwt.sign(
         { user: user},
         process.env.JWT_SECRET,
-        { expiresIn: "1h" }
+          { expiresIn: "1h" }
+        
       );
   
       res.cookie("token", token, { httpOnly: true }, { maxAge: 60 * 60 * 1000 });
       res.status(200).redirect("/create");
-    } catch (error) {
-      console.log(error);
+    }
+
+    catch (error) {
+
+        console.log(error);
+        
     }
   };
 

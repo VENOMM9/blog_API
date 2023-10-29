@@ -134,32 +134,24 @@ app.get('/blogs',  async (req, res) => {
 
 app.get("/dashboard", auth.authenticateUser,  async (req, res) => {
     try {
-        console.log(req.user_id)
-        const blogs = await blogModel.find({ user_id: req.params.user_id })
-        const users = await userModel.find({ user_id: req.params.user_id })
+        const user_id = req.user_id
+        const user = req.user
 
-        if (users.length === 0) {
-            return res.status(404).json({ message: "User not found" });
-        }
-
-        const user = {
-            first_name: users[0].first_name,
-        }
-        console.log( users  )
+       const blogs = await blogModel.find({user_id: user_id})
 
         // const users = await userModel.find({req.body.first_name })
         // console.log(blogs)
-        res.status(200).render('dashboard', {  user, blogs, date: new Date()});
+        res.status(200).render('dashboard', { user_id, user, blogs, date: new Date()});
     } catch(err) {
        return res.json(err)
     }
 })
 
 
-app.get('/users/dashboard.css', (req, res) => {
-    res.type('text/css'); // Set the content type to CSS
-    res.sendFile(path.join(__dirname, 'public/dashboard.css'));
-});
+// app.get('/users/dashboard.css', (req, res) => {
+//     res.type('text/css'); // Set the content type to CSS
+//     res.sendFile(path.join(__dirname, 'public/dashboard.css'));
+// });
 
 
 

@@ -52,7 +52,13 @@ return {
 
 
 
-const createBlog = async ({ title, description, tag, author,state, user_id, body }) => {
+const createBlog = async (req, res) => {
+
+    try{
+    
+    const { title,description, tag, author, timestamp, state, read_count, reading_time,  body} = req.body
+    const user_id = req.user_id
+
     
     const existingBlog = await blogModel.findOne({
          title: title,
@@ -85,15 +91,13 @@ const createBlog = async ({ title, description, tag, author,state, user_id, body
 
     });
    
-
-    
-    return {
-        message: "blog successfully created",
-        blog,
-        code: 201
+        res.status(200).redirect("/dashboard");
         
+    }
 
-    };
+    catch (error) {
+  console.log(error);
+}
 };
 
 
@@ -170,61 +174,49 @@ const deleteBlog = async (req, res) => {
 };
 
 
-
-
-
-
-
-const login = async ({ email, password }) => {
-    
-    if (!(email && password)) {
+const login = async (req, res) => {
+    const { email, password } = req.body;
+  
+    try {
+      const user = await userModel.findOne({
+          email: email,
+          
+      });
+      // console.log(user)
+      if (!user) {
         return {
-            message: "email or password required",
-            code: 400,
-
-        }
-    }
-
-    const user = await userModel.findOne({
-        email: email
-
-    });
-    // console.log(user)
-    if (!user) {
+          message: "This user does not exist",
+          code: 404,
+        };
+      }
+  
+      const validPassword = await user.isValidPassword(password);
+      console.log(email);
+  
+      if (!validPassword) {
         return {
-            message: "This user does not exist",
-            code: 404
-
-        }
-    }
-
-     
-    const validPassword = await user.isValidPassword(password)
-    console.log(email)
-
-    if (!validPassword) {
-        return {
-            message: "wrong email or password",
-            code: 422
-        }
-    }
-   
-    
-    const token = await jwt.sign({ first_name: user.first_name, email: user.email, _id: user._id },
+          message: "wrong email or password",
+          code: 422,
+        };
+      }
+  
+      const token = await jwt.sign(
+        { user: user},
         process.env.JWT_SECRET,
-        { expiresIn: "1h" })
-        
-    return {
-        message: "successfully logged in",
-        user,
-        token,
-        code: 201
+        { expiresIn: "1h" }
+      );
+  
+      res.cookie("token", token, { httpOnly: true }, { maxAge: 60 * 60 * 1000 });
+      res.status(200).redirect("/create");
+    } catch (error) {
+      console.log(error);
     }
+  };
 
     
         
     
-}
+
 
 
 

@@ -64,35 +64,7 @@ userRouter.post('/upload', upload.single('profilePicture'), (req, res) => {
 
 
 
-userRouter.post("/login",  middlewear.validateLogin, async (req, res) => {
-
-    try {
-        const { email, password } = req.body
-        const response = await controller.login({ email, password })
-        const blogs = await blogModel.find({ user_id: req.params.user_id })
-
-
-
-
-        if (response.code == 201) {
-
-            const user = response.user
-            res.cookie("jwt", response.token, { maxAge: 60 * 60 * 1000 });
-            res.status(200).render('dashboard', {  user, blogs, date: new Date()});
-            
-        }
-        
-        else if (response.code == 404) {
-            res.redirect("/unknown")
-        }
-            
-        else { res.redirect("/invalidinfo")}
-
-    } catch (error) {
-        console.log(error)
-        
-    }
-})
+userRouter.post("/login",  controller.login)
 
 
 

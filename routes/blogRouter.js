@@ -9,25 +9,7 @@ const blogRouter = express.Router();
 
 
 
-blogRouter.post("/create", auth.authenticateUser, async (req, res) => {
-    try {
-        const { title,description, tag, author, timestamp, state, read_count, reading_time,  body} = req.body
-        const user_id = req.params.user_id
-
-        const response = await controller.createBlog({ title, description, tag, author, timestamp, state, read_count, reading_time, user_id, body })
-        if (response.code == 201) {
-            res.redirect('/dashboard')
-            
-        }
-
-        else {
-            res.redirect('/invalidinfo')
-    
-        }
-    } catch (error) {
-        console.log(error)
-    }
-})
+blogRouter.post("/create", auth.authenticateUser, controller.createBlog)
 blogRouter.get("/", middlewear.validateBlog, controller.getAllBlogs)
 
 blogRouter.get("/:id", middlewear.validateBlog, controller.getOneBlog)

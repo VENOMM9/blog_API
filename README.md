@@ -1,4 +1,4 @@
-## Blog Management System
+## Blog API
 
 This is a blog management system built with Node.js, Express, and MongoDB, designed to help you manage and publish blogs. It allows users to create and manage their blogs efficiently. This README provides an overview of the project's structure, components, and how to run it.
 
@@ -34,11 +34,11 @@ Before you begin, ensure you have met the following requirements:
 ## Installation
 
 - Clone the repository:
-git clone https://github.com/yourusername/blog-management-system.git
+git clone https://github.com/VENOMM/blog_API.git
 
 - Install project dependencies:
 
-- cd blog-management-system
+- cd blog_API
 npm install
 
 

@@ -59,4 +59,4 @@ Use the provided routes to create, edit, and delete blogs.
 Access your dashboard to view your blogs and user profile.
 ## License
 
-This project is currently unlicensed. All rights to the code and project are retained by the author, and it is not open source. Unauthorized use, modification, or distribution is prohibited without explicit permission from the author.
+This project is currently unlicensed. 

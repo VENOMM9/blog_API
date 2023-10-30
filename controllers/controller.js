@@ -145,19 +145,20 @@ const updateBlog = async (req, res) => {
 
 const deleteBlog = async (req, res) => {
   try {
-    const blogId = req.params._id;
-    console.log(blogId);
-    const oneBlog = await blogModel.findOneAndDelete(blogId);
+    // Extract the blog post ID from the request parameters
+    const postId = req.params._id;
 
-    if (!blogId) {
-      return res.status(404).json({ msg: `No blog with id: ${blogId}` });
+    // Delete the blog post from the database
+    const deletedBlogPost = await blogModel.findByIdAndDelete(postId);
+
+    if (!deletedBlogPost) {
+      return res.status(404).json({ message: "blog not found" });
     }
 
-    res.status(200).send(oneBlog);
-    console.log("blog successfully deleted");
+    res.redirect("/dashboard");
   } catch (error) {
-    console.log(error);
-    res.status(400);
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 

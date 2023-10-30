@@ -172,20 +172,16 @@ const login = async (req, res) => {
     // console.log(user)
 
     if (!user) {
-      return {
-        message: "This user does not exist",
-        code: 404,
-      };
+        res.redirect("/signup");
+
     }
 
     const validPassword = await user.isValidPassword(password);
     console.log(email);
 
     if (!validPassword) {
-      return {
-        message: "wrong email or password",
-        code: 422,
-      };
+        res.redirect("/unknown");
+
     }
 
     const token = await jwt.sign({ user: user }, process.env.JWT_SECRET, {

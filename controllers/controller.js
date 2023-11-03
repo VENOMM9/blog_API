@@ -138,7 +138,7 @@ const getOneBlog = async (req, res) => {
     await blog.save();
 
     // Fetch the user information
-    const user_id = blog.user_id; // Assuming the user_id is stored in the blog document
+    const user_id = blog.user_id; 
     const user = await userModel.findById(user_id);
 
     if (!user) {
@@ -164,8 +164,10 @@ const updateBlog = async (req, res) => {
     }
     existingBlogPost.read_count = parseInt(existingBlogPost.read_count) + 1;
     await existingBlogPost.save();
+
+
     // Update the fields of the existing blog post
-    // You can update title, description, tag, author, state, or other fields
+    
     existingBlogPost.title = req.body.title;
     existingBlogPost.description = req.body.description;
     existingBlogPost.tag = req.body.tag;
@@ -231,7 +233,7 @@ const login = async (req, res) => {
     res.cookie("token", token, { httpOnly: true }, { maxAge: 60 * 60 * 1000 });
     res.status(200).redirect("/create");
   } catch (error) {
-    console.log(error); // Log the error for debugging
+    console.log(error); 
     res.status(500).send("Internal Server Error");
   }
 };

@@ -4,15 +4,11 @@ const app = require('../app');
 
 describe('User Routes', () => {
     beforeAll(async () => {
-        // Perform any necessary setup or operations before the tests start
-        // For example, you might establish a connection to a database or start a server
-        // You can initialize any required configurations or perform setup tasks here
+        
     });
 
     afterAll(async () => {
-        // Perform any necessary cleanup or operations after the tests finish
-        // For example, you might close the database connection or stop the server
-        // You can perform any cleanup tasks here to reset the environment
+      
     });
 
     it('should create a new user', async () => {

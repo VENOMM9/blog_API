@@ -3,11 +3,9 @@ const app = require("../app");
 
 describe("Blog Routes", () => {
     beforeAll(async () => {
-        // Perform any necessary setup or operations before the tests start
     });
 
     afterAll(async () => {
-        // Perform any necessary cleanup or operations after the tests finish
     });
 
     it("should create a new blog", async () => {
@@ -28,7 +26,7 @@ describe("Blog Routes", () => {
     //     it("should update an existing blog", async () => {
     //         const blogId = "MSC47hYbF";
     //     const res = await request(app)
-    //       .put(`/blogs/${blogId}`) // Replace :id with the ID of the blog to update
+    //       .put(`/blogs/${blogId}`) 
     //       .send({
     //         title: "Updated Test Blog",
     //         description: "This is an updated test blog",
@@ -42,7 +40,6 @@ describe("Blog Routes", () => {
     //     expect(res.statusCode).toBe(302);
     //     expect(res.header["location"]).toBe("/create");
 
-    //     // Add any necessary assertions here for the updated blog
     //   });
 
     //     it("should delete an existing blog", async () => {
@@ -55,5 +52,4 @@ describe("Blog Routes", () => {
     //     // Add any necessary assertions here for the deleted blog
     //   });
 
-    //   // Add more tests for other blog routes as needed
      });

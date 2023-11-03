@@ -45,7 +45,7 @@ app.get("/", (req, res) => {
 
 app.get("/publishedblogs", async (req, res) => {
   try {
-    // Fetch published blogs from your database (assuming 'state' represents the publish state)
+    // Fetch published blogs from your database ( 'state' represents the publish state)
     const publishedBlogs = await blogModel.find({ state: "published" });
 
     res.render("publishedBlogs", { blogs: publishedBlogs });
@@ -68,7 +68,7 @@ app.get("/blog/:_id", async (req, res) => {
     await blog.save();
 
     // Fetch the user information
-    const user_id = blog.user_id; // Assuming the user_id is stored in the blog document
+    const user_id = blog.user_id; // the user_id is stored in the blog document
     const user = await userModel.findById(user_id);
 
     if (!user) {
@@ -83,7 +83,7 @@ app.get("/blog/:_id", async (req, res) => {
 
 app.get("/allblogs", async (req, res) => {
   try {
-    const user_id = req.query.user_id; // Use req.query to get user_id
+    const user_id = req.query.user_id; // req.query to get user_id
 
     // Get search parameters from the query
     const searchAuthor = req.query.author;
@@ -99,7 +99,7 @@ app.get("/allblogs", async (req, res) => {
 
     // Get page and limit from query string
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 3; // Set your default limit
+    const limit = parseInt(req.query.limit) || 3; // Set  default limit
 
     const totalPages = Math.ceil(totalBlogs / limit);
 
@@ -115,7 +115,7 @@ app.get("/allblogs", async (req, res) => {
     // Create a query object to filter blogs
     const query = {};
 
-    // Add conditions for author, title, and tags if provided
+    //  conditions for author, title, and tags if provided
     if (searchAuthor) {
       query.author = searchAuthor;
     }

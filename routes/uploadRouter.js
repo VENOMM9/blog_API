@@ -22,19 +22,19 @@ const storage = multer.diskStorage({
   const upload = multer({ storage: storage });
   
   uploadRouter.post('/upload', upload.single('profilePicture'), (req, res) => {
-  
-  
-    //  file upload here, save the path to the user's profilePicture field
-    const userId = req.user._id; // Assuming you have user data in the request
-    const profilePicturePath = req.file.path; // Path to the uploaded profile picture
+  //  file upload here, save the path to the user's profilePicture field
+    const userId = req.user._id; 
+    const profilePicturePath = req.file.path; 
+
     // Update the user's document with the profilePicturePath
     userModel.findByIdAndUpdate(userId, { profilePicture: profilePicturePath }, (err, user) => {
+
       if (err) {
-        // Handle the error
+       console.log(err)
       } else {
-        // Profile picture path has been updated in the user document
         res.redirect('/dashboard'); // Redirect to the dashboard after successful upload
       }
+
     });
   
     

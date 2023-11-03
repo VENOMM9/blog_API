@@ -49,7 +49,7 @@ Create a .env file and specify the necessary environment variables like database
 
 
 npm start
-- Access the application in your browser at (https://domash.onrender.com/).
+- Access the application in your browser at https://domash.onrender.com/.
 
 
 ## Usage

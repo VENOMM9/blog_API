@@ -26,6 +26,7 @@ header {
     top: 0;
     left: 0;
     width: 100%;
+    font-family: cursive;
 }
 
 nav ul {
@@ -115,6 +116,9 @@ h1 {
     font-size: 24px;
     color: #333;
 }
+.blog-heading{
+  display: flex;
+}
 
 .blog-post {
     margin-top: 10px;
@@ -162,6 +166,24 @@ button.delete-button {
 
 button.delete-button:hover {
     background-color: #f33333;
+}
+
+
+button.allblogs-button {
+  background-color: #3e3e3e;
+  color: #fff;
+  border: none;
+  padding: 7px 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 15px;
+  margin-left: 30px;
+}
+
+button.allblogs-button:hover {
+  background-color: #a22f2f;
 }
 
 footer {

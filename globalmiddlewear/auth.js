@@ -20,7 +20,7 @@ const authenticateUser = async (req, res, next) => {
             next()
         } catch (error) {
             console.log(error)
-           return res.redirect("/login")
+           return res.status(302).redirect("/login")
             
             
         }

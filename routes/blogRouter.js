@@ -3,22 +3,25 @@ const controller = require("../controllers/controller")
 const middlewear = require("../middlewear/middlewear")
 const auth = require("../globalmiddlewear/auth");
 const blogModel = require("../models/blogs");
+const methodOverride = require('method-override');
+
+
 
 const blogRouter = express.Router();
 
-
+blogRouter.use(methodOverride('_method'));
 
 
 blogRouter.post("/create", auth.authenticateUser, controller.createBlog)
 
-blogRouter.get("/", middlewear.validateBlog, controller.getAllBlogs)
+blogRouter.get("/",  controller.getAllBlogs)
 
-blogRouter.get("/:id", middlewear.validateBlog, controller.getOneBlog)
+blogRouter.get("/:_id", controller.getOneBlog)
 
-blogRouter.post('/update/:_id', middlewear.validateBlog, controller.updateBlog);
+blogRouter.put('/update/:_id',  controller.updateBlog);
 
 
-blogRouter.post('/:_id',  middlewear.validateBlog, controller.deleteBlog);
+blogRouter.post('/:_id',   controller.deleteBlog);
 
 
 

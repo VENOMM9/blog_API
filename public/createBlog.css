@@ -26,6 +26,7 @@ header {
     top: 0;
     left: 0;
     width: 100%;
+    font-family: cursive;
 }
 
 nav ul {
@@ -98,6 +99,21 @@ main button {
 
 main button:hover {
   background-color: #333;
+}
+
+button.allblogs-button {
+  background-color: #a88735;
+  color: #fff;
+  border: none;
+  padding: 5px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 15px;
+}
+
+button.allblogs-button:hover {
+  background-color: #f33333;
 }
 
 footer {

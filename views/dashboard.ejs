@@ -3,6 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <head>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    </head>
     <title>dashboard</title>
     <link rel="stylesheet" href="dashboard.css" />
   </head>
@@ -12,6 +15,7 @@
       <nav>
         <ul class="nav-links">
           <li><a href="/">HOME</a></li>
+
           <li><a href="/publishedBlogs">PUBLISHED</a></li>
           <li><a href="/logout">LOGOUT</a></li>
 
@@ -27,12 +31,24 @@
 
       <!-- File upload form for updating the profile picture -->
       <form action="/upload" method="POST" enctype="multipart/form-data">
-        <input class="input" type="file" name="profilePicture" accept="image/*" />
+        <input
+          class="input"
+          type="file"
+          name="profilePicture"
+          accept="image/*"
+        />
         <button class="uploadbtn" type="submit">Upload Profile Picture</button>
       </form>
     </aside>
 
+    <div>
+      <form method="GET" action="/allblogs">
+        <button class="allblogs-button" type="submit">All blogs</button>
+      </form>
+    </div>
+
     <% blogs.forEach(blog =>{ %>
+
     <section>
       <h1>Title: <%= blog.title %></h1>
 
@@ -47,13 +63,21 @@
           Date().toLocaleString('default', {month: 'long'}); %>,<%= new
           Date().getFullYear(); %>
         </p>
-        <p>Reading Time: <%= blog.reading_time %> minutes</p>
-        <p>Read Count: <%= blog.read_count %> times</p>
+        <p>
+          <span><i class="far fa-clock"></i> &nbsp; <%= Math.ceil(blog.body.split(' ').length / 200) %>
+          minutes</span>&nbsp; &nbsp; &nbsp; 
+          
+       <span><i class="fas fa-eye"></i>&nbsp; <%= Number(blog.read_count) %> times</span></p>
       </div>
       <div class="blog-content">
-        <p><strong>The body:</strong><%= blog.body %></p>
+        <p style="font-family:cursive"><strong>The body: &nbsp;</strong><%= blog.body %></p>
       </div>
       <a class="update" href="/update/<%= blog._id %>">Update</a>
+      <div>
+        <form method="GET" action="/blogs/<%= blog._id %>?_method=GET">
+          <button class="allblogs-button" type="submit">Single blog</button>
+        </form>
+      </div>
       <div>
         <form method="POST" action="/blogs/<%= blog._id %>?_method=DELETE">
           <button class="delete-button" type="submit">Delete</button>

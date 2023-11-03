@@ -1,8 +1,14 @@
 const express = require("express");
 const userRoute = require("./routes/userRouter");
 const blogRoute = require("./routes/blogRouter");
+const uploadRoute = require("./routes/uploadRouter");
+
 const path = require("path");
 const auth = require("./globalmiddlewear/auth");
+const logger = require('./config/logger');
+const winston = require('winston');
+
+
 
 require("dotenv").config();
 const { connectionToMongodb } = require("./db/connect");
@@ -19,6 +25,7 @@ app.set("view engine", "ejs");
 app.set("views", "views");
 
 app.use(express.static(path.join(__dirname, "public")));
+app.use('/uploads', express.static('uploads')); // Serve uploaded files statically
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -29,6 +36,8 @@ connectionToMongodb();
 
 app.use("/users", userRoute);
 app.use("/blogs", blogRoute);
+app.use('/', uploadRoute);
+
 
 app.get("/", (req, res) => {
   res.render("home");
@@ -46,68 +55,121 @@ app.get("/publishedblogs", async (req, res) => {
   }
 });
 
-app.get("/blogsPost/:_id", async (req, res) => {
+app.get("/blog/:_id", async (req, res) => {
   try {
     const blogId = req.params._id;
     const blog = await blogModel.findById(blogId);
-
     if (!blog) {
-      return res.status(404).send("Blog not found");
+      return res.status(404).json({ message: 'Blog not found' });
     }
 
-    //increment the read count
-    blog.read_count += 1;
-
-    //save the updated blog
+    // Increment the read_count by 1
+    blog.read_count = parseInt(blog.read_count) + 1;
     await blog.save();
 
-    res.render("blogsPost", { blog });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
+    // Fetch the user information
+    const user_id = blog.user_id; // Assuming the user_id is stored in the blog document
+    const user = await userModel.findById(user_id);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.render("blog", { user_id:user_id, user:user, blog:blog, date: new Date() });
+  } catch (err) {
+    return res.status(500).json({ message: 'Internal server error' });
   }
 });
 
-app.get("/blogs", async (req, res) => {
+app.get("/allblogs", async (req, res) => {
   try {
-    // Extract query parameters for pagination and filtering
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10; // Adjust the limit as needed
-    const state = req.query.state; // You can add validation or use a default value
-    const title = req.query.title;
+    const user_id = req.query.user_id; // Use req.query to get user_id
 
-    // Calculate the skip value based on pagination
+    // Get search parameters from the query
+    const searchAuthor = req.query.author;
+    const searchTitle = req.query.title;
+    const searchTags = req.query.tags;
+
+    // Get ordering parameters from the query
+    const orderField = req.query.orderField; 
+    const orderDirection = req.query.orderDirection;
+
+    const totalBlogs = await blogModel.countDocuments();
+    const users = await userModel.find({ user_id });
+
+    // Get page and limit from query string
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 3; // Set your default limit
+
+    const totalPages = Math.ceil(totalBlogs / limit);
+
+    if (page < 1) {
+      page = 1;
+    } else if (page > totalPages) {
+      page = totalPages;
+    }
+
+    // Calculate the skip value
     const skip = (page - 1) * limit;
 
-    // Query the database based on the user's ID, pagination, and filtering options
-    const userId = req.user_id; // User's ID retrieved from authentication
-    const query = { user_id: userId };
+    // Create a query object to filter blogs
+    const query = {};
 
-    if (state) {
-      query.state = state;
+    // Add conditions for author, title, and tags if provided
+    if (searchAuthor) {
+      query.author = searchAuthor;
+    }
+    if (searchTitle) {
+      query.title = searchTitle;
+    }
+    if (searchTags) {
+      query.tags = { $in: searchTags.split(",") };
+    }
+   
+    // Create an order object for sorting
+    const sort = {};
+
+    if (orderField && (orderDirection === "asc" || orderDirection === "desc")) {
+      sort[orderField] = orderDirection;
     }
 
-    if (title) {
-      query.title = title;
-    }
-    if (!title) {
-      return res.status(400).json({ message: '"title" is required' });
-    }
+    // Fetch blogs based on pagination, search conditions, and sorting
+    const blogs = await blogModel.find(query)
+    
 
-    const blogs = await blogModel.find(query).skip(skip).limit(limit);
+      .skip(skip)
+      .limit(limit)
+      .sort(sort);
+    
 
-    // You need to calculate the total number of blogs for pagination
-    const totalNumberOfBlogs = await blogModel.countDocuments(query);
+    
+      for (let i = 0; i < blogs.length; i++) {
+        const blog = blogs[i];
+        blog.read_count += 1;        
+      
+        if (blog.body) {
+          console.log(`Blog ${i} body:`, blog.body);
+      
+          const words = blog.body.split(' ');
+          const reading_time = Math.ceil(words.length / 200);
+          blog.reading_time = reading_time;
+        }
+      
+        await blog.save();
+      }
 
-    // Send the list of blogs as a response
-    res.render("blogs", {
-      blogs,
-      page,
-      total: totalNumberOfBlogs,
+    res.status(200).render("allblogs", {
+      user_id: user_id,
+      users: users,
+      page: page,
+      totalPages: totalPages,
+      totalBlogs: totalBlogs,
+      limit: limit,
+      blogs: blogs,
+      date: new Date(),
     });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal Server Error" });
+  } catch (err) {
+    return res.json(err);
   }
 });
 
@@ -122,7 +184,7 @@ app.get("/dashboard", auth.authenticateUser, async (req, res) => {
     // console.log(blogs)
     res
       .status(200)
-      .render("dashboard", { user_id, user, blogs, date: new Date() });
+      .render("dashboard", { user_id, user,  blogs, date: new Date() });
   } catch (err) {
     return res.json(err);
   }
@@ -150,6 +212,8 @@ app.get("/update/:_id", async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
+
+
 
 app.get("/create", (req, res) => {
   res.render("createblog");
@@ -180,6 +244,23 @@ app.get("/logout", (req, res) => {
   res.redirect("/login");
 });
 
+app.use((req, res, next) => {
+  logger.info(`${req.method} ${req.originalUrl} ${req.ip}`);
+  next();
+});
+
+
+app.use((err, req, res, next) => {
+  logger.error(`${err.status || 500} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+  // Handle errors and send a response
+  res.status(err.status || 500).send(err.message || 'Internal Server Error');
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+
+
+
+module.exports = app

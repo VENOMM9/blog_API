@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <title>blogs</title>
+    <link rel="stylesheet" href="dashboard.css" />
+  </head>
+
+  <body>
+    <header>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">HOME</a></li>
+
+          <li><a href="/publishedBlogs">PUBLISHED</a></li>
+          <li><a href="/logout">LOGOUT</a></li>
+
+          <li><a href="/dashboard">DASHBOARD</a></li>
+        </ul>
+      </nav>
+    </header>
+    <h1 class="realheader">
+      Welcome <span class="firstname"><%= users.first_name %></span> to LEMON
+    </h1>
+    <form method="GET" action="/allblogs">
+      <div class="search">
+        <input type="text" name="user_id" value="<%= user_id %>" hidden />
+        <!-- User ID is passed as a hidden field -->
+        <input type="text" name="author" placeholder="Author" />
+        <input type="text" name="title" placeholder="Title" />
+        <input type="text" name="tags" placeholder="Tags (comma-separated)" />
+        <select name="orderField">
+          <option value="read_count">Read Count</option>
+          <option value="reading_time">Reading Time</option>
+          <option value="timestamp">Timestamp</option>
+        </select>
+        <select name="orderDirection">
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
+        <button type="submit">Search & Order</button>
+      </div>
+    </form>
+
+    <% blogs.forEach(blog =>{ %>
+    <section>
+      <h1>Title: <%= blog.title %></h1>
+
+      <p>Author: <%= blog.author %></p>
+      <p>State: <%= blog.state %></p>
+    </section>
+    <main class="main">
+      <div class="blog-post">
+        <p>Description: <%= blog.description %></p>
+        <p>
+          Published on: <%= new Date().getDate() %> <%= new
+          Date().toLocaleString('default', {month: 'long'}); %>,<%= new
+          Date().getFullYear(); %>
+        </p>
+        <p>
+          <span><i class="far fa-clock"></i> &nbsp; <%= blog.reading_time %>
+          minutes</span>&nbsp; &nbsp; &nbsp; 
+          
+       <span><i class="fas fa-eye"></i>&nbsp; <%= blog.read_count%>times </span></p>
+      <div class="blog-content">
+        <p style="font-family:cursive"><strong>The body:</strong><%= blog.body %></p>
+      </div>
+      <div>
+        <span> <p class="tags"><%= blog.tag %></p> </span>
+      </div>
+    </main>
+    <div class="pagination">
+      <% if (page && page > 1) { %>
+      <a href="/blogs?page=<%= page - 1 %>&limit=<%= limit %>">Previous</a>
+      <% } %>
+      <span>Page <%= page %></span>
+      <% if (page <= totalPages) { %>
+      <a href="/blogs?page=<%= page + 1 %>&limit=<%= limit %>">Next</a>
+      <% } %>
+    </div>
+    
+
+    <%}); %>
+
+    <footer>
+      <p>&copy; 2023 Your Blog</p>
+    </footer>
+  </body>
+</html>

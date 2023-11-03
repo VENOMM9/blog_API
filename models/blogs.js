@@ -22,8 +22,8 @@ const blogSchema = new schema({
     user_id:{type:mongoose.Schema.Types.String,
         ref:"users"
         },
-    read_count: { type: String, required: true, default: 0 },
-    reading_time: { type: String, },
+    read_count: { type: Number, required: true, default: 0 },
+    reading_time: { type: Number },
     body:{type:String, required: false}
 
 })
